@@ -26,6 +26,24 @@ const CustomTab: React.FC<TabProps> = ({ children, ...props }) => {
 };
 
 const HomeLayout = () => {
+  type FormValues = {
+    requisitionDetails: {
+      gender: string;
+      noOfOpenings: number;
+      requisitionTitle: string;
+      urgency: string;
+    };
+    jobDetails: {
+      jobDetails: string;
+      jobLocation: string;
+      jobTitle: string;
+    };
+    interviewSettings: {
+      interviewDuration: string;
+      interviewLanguage: string;
+      interviewMode: string;
+    };
+  };
   const [page, setPage] = useState<PageNumbers>(0);
   // ...............
   const [draftValues, setDraftValues] = useState({
@@ -47,32 +65,9 @@ const HomeLayout = () => {
     },
   });
   // ...............
-  type FormValues = {
-    requisitionDetails: {
-      gender: string;
-      noOfOpenings: number;
-      requisitionTitle: string;
-      urgency: string;
-    };
-    jobDetails: {
-      jobDetails: string;
-      jobLocation: string;
-      jobTitle: string;
-    };
-    interviewSettings: {
-      interviewDuration: string;
-      interviewLanguage: string;
-      interviewMode: string;
-    };
-  };
 
   const handlePage = (pageNumber: PageNumbers) => {
     setPage(pageNumber);
-  };
-
-  // Function to update draft values
-  const updateDraftValues = (values: FormValues) => {
-    setDraftValues({ ...draftValues, ...values });
   };
 
   return (
@@ -90,22 +85,13 @@ const HomeLayout = () => {
           <Grid display="grid" gridTemplateColumns="3fr 2fr" gap="24px">
             <TabPanels>
               <TabPanel>
-                <RequisitionForm
-                  handleTab={handlePage}
-                  updateDraftValues={updateDraftValues}
-                />
+                <RequisitionForm handleTab={handlePage} />
               </TabPanel>
               <TabPanel>
-                <JobDetailsForm
-                  handleTab={handlePage}
-                  updateDraftValues={updateDraftValues}
-                />
+                <JobDetailsForm handleTab={handlePage} />
               </TabPanel>
               <TabPanel>
-                <InterviewSettingsForm
-                  handleTab={handlePage}
-                  updateDraftValues={updateDraftValues}
-                />
+                <InterviewSettingsForm handleTab={handlePage} />
               </TabPanel>
             </TabPanels>
             <DisplayCard
