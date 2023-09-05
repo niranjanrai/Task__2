@@ -47,13 +47,19 @@ const HomeLayout = () => {
     },
   });
   // ...............
+  type FormValues = {
+    jobTitle: string;
+    jobDetails: string;
+    jobLocation: string;
+    // Add other fields as needed
+  };
 
   const handlePage = (pageNumber: PageNumbers) => {
     setPage(pageNumber);
   };
 
   // Function to update draft values
-  const updateDraftValues = (values) => {
+  const updateDraftValues = (values: FormValues) => {
     setDraftValues({ ...draftValues, ...values });
   };
 
