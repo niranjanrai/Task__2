@@ -48,10 +48,22 @@ const HomeLayout = () => {
   });
   // ...............
   type FormValues = {
-    jobTitle: string;
-    jobDetails: string;
-    jobLocation: string;
-    // Add other fields as needed
+    requisitionDetails: {
+      gender: string;
+      noOfOpenings: number;
+      requisitionTitle: string;
+      urgency: string;
+    };
+    jobDetails: {
+      jobDetails: string;
+      jobLocation: string;
+      jobTitle: string;
+    };
+    interviewSettings: {
+      interviewDuration: string;
+      interviewLanguage: string;
+      interviewMode: string;
+    };
   };
 
   const handlePage = (pageNumber: PageNumbers) => {
