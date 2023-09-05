@@ -12,6 +12,7 @@ import {
   interviewModeOptions,
   urgencyOptions,
 } from "./constants";
+import { useData } from "./DataProvider";
 
 const DataCard: React.FC<{ title: string; children: React.ReactNode }> = ({
   title,
@@ -45,11 +46,13 @@ const KeyValue: React.FC<{
   );
 };
 
-const PreviewCard: React.FC<{
-  requisitionDetails?: IRequisitionDetails;
-  jobDetails?: IJobDetails;
-  interviewSettings?: IInterViewSettings;
-}> = ({ requisitionDetails, jobDetails, interviewSettings }) => {
+const PreviewCard: React.FC<{}> = () => {
+  const { state } = useData();
+
+  const requisitionDetails = state.requisitionDetails;
+  const jobDetails = state.jobDetails;
+  const interviewSettings = state.interviewSettings;
+
   return (
     <Box p="1rem">
       <Box borderRadius="10px" bgColor="gray.100" height="fit-content">

@@ -1,5 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import FormInput from "../../components/formComponents/FormInput";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { useFormik } from "formik";
@@ -7,10 +7,13 @@ import * as Yup from "yup";
 import { PageNumbers } from "../../interface/home";
 import { IRequisitionDetails } from "../../interface/forms";
 import { genderOptions, urgencyOptions } from "./constants";
+import { useData } from "./DataProvider";
 
 const RequisitionDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
 }> = ({ handleTab }) => {
+  const { state, setState } = useData();
+
   const {
     handleChange,
     errors,
@@ -38,14 +41,28 @@ const RequisitionDetailsForm: React.FC<{
       urgency: Yup.string().required("Urgency is required"),
       gender: Yup.string().required("Gender is required"),
     }),
+
     onSubmit: (values) => {
       handleTab(1);
     },
   });
 
+  useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      requisitionDetails: {
+        ...prevState.requisitionDetails,
+        requisitionTitle: values.requisitionTitle,
+        noOfOpenings: values.noOfOpenings,
+        urgency: values.urgency,
+        gender: values.gender,
+      },
+    }));
+  }, [values, setState]);
+
   return (
-    <Box width="100%" as="form" onSubmit={handleSubmit as any}>
-      <Box width="100%">
+    <Box width="100%">
+      <Box width="100%" as="form" onSubmit={handleSubmit as any}>
         <FormInput
           label="Requisition Title"
           placeholder="Enter requisition title"
@@ -62,7 +79,7 @@ const RequisitionDetailsForm: React.FC<{
           name="noOfOpenings"
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values?.noOfOpenings}
+          value={values?.noOfOpenings.toString()}
           error={errors?.noOfOpenings}
           touched={touched?.noOfOpenings}
         />
@@ -75,7 +92,7 @@ const RequisitionDetailsForm: React.FC<{
           onBlur={setFieldTouched}
           error={errors.gender}
           touched={touched.gender}
-          value={values.gender}
+          value={values.gender} // Bind to values
         />
         <FormSelect
           label="Urgency"
@@ -86,7 +103,7 @@ const RequisitionDetailsForm: React.FC<{
           onBlur={setFieldTouched}
           error={errors.urgency}
           touched={touched.urgency}
-          value={values.urgency}
+          value={values.urgency} // Bind to values
         />
         <Flex w="100%" justify="flex-end" mt="4rem">
           <Button colorScheme="red" type="submit">

@@ -27,9 +27,34 @@ const CustomTab: React.FC<TabProps> = ({ children, ...props }) => {
 
 const HomeLayout = () => {
   const [page, setPage] = useState<PageNumbers>(0);
+  // ...............
+  const [draftValues, setDraftValues] = useState({
+    requisitionDetails: {
+      gender: "",
+      noOfOpenings: 0,
+      requisitionTitle: "",
+      urgency: "",
+    },
+    jobDetails: {
+      jobDetails: "",
+      jobLocation: "",
+      jobTitle: "",
+    },
+    interviewSettings: {
+      interviewDuration: "",
+      interviewLanguage: "",
+      interviewMode: "",
+    },
+  });
+  // ...............
 
   const handlePage = (pageNumber: PageNumbers) => {
     setPage(pageNumber);
+  };
+
+  // Function to update draft values
+  const updateDraftValues = (values) => {
+    setDraftValues({ ...draftValues, ...values });
   };
 
   return (
@@ -47,16 +72,29 @@ const HomeLayout = () => {
           <Grid display="grid" gridTemplateColumns="3fr 2fr" gap="24px">
             <TabPanels>
               <TabPanel>
-                <RequisitionForm handleTab={handlePage} />
+                <RequisitionForm
+                  handleTab={handlePage}
+                  updateDraftValues={updateDraftValues}
+                />
               </TabPanel>
               <TabPanel>
-                <JobDetailsForm handleTab={handlePage} />
+                <JobDetailsForm
+                  handleTab={handlePage}
+                  updateDraftValues={updateDraftValues}
+                />
               </TabPanel>
               <TabPanel>
-                <InterviewSettingsForm handleTab={handlePage} />
+                <InterviewSettingsForm
+                  handleTab={handlePage}
+                  updateDraftValues={updateDraftValues}
+                />
               </TabPanel>
             </TabPanels>
-            <DisplayCard />
+            <DisplayCard
+              requisitionDetails={draftValues.requisitionDetails}
+              jobDetails={draftValues.jobDetails}
+              interviewSettings={draftValues.interviewSettings}
+            />
           </Grid>
         </Tabs>
       </Container>
